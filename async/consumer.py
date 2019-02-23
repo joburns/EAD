@@ -10,10 +10,10 @@ print ('Blocking receive_message from request from Q: ')
 
 while (True) :
     print ('Blocking for 20 seconds waiting for message')
-    for request in req_queue.receive_messages(WaitTimeSeconds=20):
+    for request in req_queue.receive_messages(WaitTimeSeconds=3):
         print ('Request Received from request Q: ' + request.body)
         print ('Non-Blocking send_message from response Q: ')
         resp_queue.send_message(MessageBody='This is a response')
-
+        # now comment this out and study what happens
         request.delete()
 

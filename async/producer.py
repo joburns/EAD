@@ -14,7 +14,7 @@ req_queue.send_message(MessageBody='This is a request')
 # now go into reading mode
 while (True) :
     print ('Blocking receive_message from response Q: ')
-    for response in resp_queue.receive_messages(WaitTimeSeconds=20):
+    for response in resp_queue.receive_messages(WaitTimeSeconds=3):
         print ('Response Received from response Q: ' + response.body)
         response.delete()
         print ('Response deleted from response Q: ')
