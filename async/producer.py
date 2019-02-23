@@ -4,14 +4,20 @@ import boto3
 sqs = boto3.resource('sqs')
 
 # Get the queue
-queue = sqs.get_queue_by_name(QueueName='EAD-Q')
+req_queue = sqs.get_queue_by_name(QueueName='EAD-Request')
 
 # Create a new message
-response = queue.send_message(MessageBody='message #1')
-queue.send_message(MessageBody='message #2')
+print ('Non-Blocking send_message from response Q: ')
+req_queue.send_message(MessageBody='message #1')
 
-# The response is NOT a resource, but gives you a message ID and MD5
-# print(response.get('MessageId'))
-# print(response.get('MD5OfMessageBody'))
+# now go into reading mode
 
+resp_queue = sqs.get_queue_by_name(QueueName='EAD-Response')
 
+print ('Blocking receive_message from response Q: ')
+
+for response in resp_queue.receive_messages(WaitTimeSeconds=20):
+    print ('Response Received from response Q: ')
+    response.delete()
+
+print ('Response deleted from response Q: ')
