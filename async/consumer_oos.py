@@ -1,4 +1,5 @@
 import boto3
+import time
 
 # Get the service resource
 sqs = boto3.resource('sqs')
@@ -13,5 +14,6 @@ while (True) :
         print ('Q Read: ' + request.body)
         resp_queue.send_message(MessageBody=request.body)
         # now comment this out and study what happens
+        time.sleep(0.25)
         request.delete()
 
